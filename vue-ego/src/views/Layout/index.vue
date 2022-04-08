@@ -1,9 +1,23 @@
 <template>
-  <div><h2>布局</h2></div>
+  <div class="Layout_index">
+    <Mymenu class="left_menu" />
+    <Content class="right_menu" />
+  </div>
 </template>
 
 <script>
-export default {};
+import Mymenu from "./Mymenu.vue";
+import Content from "./Content.vue";
+import "css/Layout/Layout.less";
+export default {
+  data() {
+    return {};
+  },
+  components: {
+    Mymenu,
+    Content,
+  },
+};
 </script>
 
 <style></style>

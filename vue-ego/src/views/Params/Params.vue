@@ -1,5 +1,7 @@
 <template>
-  <div><h2>login</h2></div>
+  <div>
+    <h2>商品参数</h2>
+  </div>
 </template>
 
 <script>

@@ -48,10 +48,9 @@
       "parser": "@babel/eslint-parser"
     },
     "rules": {
-      "space-before-blocks":"off",
-      "vue/multi-word-component-names":0
+      "space-before-blocks": "off",
+      "vue/multi-word-component-names": 0
     }
-    
   },
   "browserslist": [
     "> 1%",
