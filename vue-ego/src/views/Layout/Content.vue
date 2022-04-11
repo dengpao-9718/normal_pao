@@ -1,6 +1,14 @@
 <template>
   <div class="right_cont">
-    <div class="header">顶部区域</div>
+    <div class="header">
+      <i
+        v-if="!isCollapse"
+        @click="changeMenu"
+        class="iconfont icon-right-indent"
+      ></i>
+      <i v-else @click="changeMenu" class="iconfont icon-left-indent"></i>
+      顶部区域
+    </div>
     <!-- 内容区域   路由出口 -->
     <div class="content">
       <router-view />
@@ -9,7 +17,15 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: ["isCollapse"],
+  methods: {
+    changeMenu() {
+      //点击切换按钮的时候，修改父组件的数据 isCollapse
+      this.$emit("changeCollapse");
+    },
+  },
+};
 </script>
 
-<style></style>
+<style lang="less" scoped></style>

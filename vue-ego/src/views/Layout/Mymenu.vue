@@ -3,12 +3,16 @@
     <el-menu
       default-active="/"
       class="el-menu-vertical-demo"
-      background-color="#545c64"
+      background-color="#183555"
       text-color="#fff"
       active-text-color="#ffd04b"
       router
-      :collapse="false"
+      :collapse="isCollapse"
+      collapse-transition
     >
+      <el-menu-item>
+        <span slot="title">快快乐乐每一天</span>
+      </el-menu-item>
       <el-menu-item index="/">
         <i class="el-icon-menu"></i>
         <span slot="title">首页</span>
@@ -46,11 +50,26 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: ["isCollapse"],
+  data() {
+    return {};
+  },
+};
 </script>
 
 <style lang="less" scoped>
 .el-menu {
   width: 100%;
+  border-right: 0;
+  height: 100%;
+  .is-active {
+    background: #054476 !important;
+    color: #fff !important;
+  }
+}
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 200px;
+  min-height: 400px;
 }
 </style>
