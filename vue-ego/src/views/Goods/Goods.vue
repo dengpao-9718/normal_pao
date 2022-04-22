@@ -14,32 +14,45 @@
     <div class="wrapper">
       <el-table border :data="tableData" style="width: 100%">
         <el-table-column type="selection" width="55"> </el-table-column>
-        <el-table-column prop="date" label="商品ID" width="100">
+        <el-table-column prop="id" label="商品ID" width="100">
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="title"
           label="商品名称"
           width="100"
+          show-overflow-tooltip
         ></el-table-column>
         <el-table-column
-          prop="name"
+          prop="price"
           label="商品价格"
           width="100"
         ></el-table-column>
         <el-table-column
-          prop="name"
+          prop="num"
           label="商品数量"
           width="100"
         ></el-table-column>
         <el-table-column
-          prop="name"
+          prop="category"
           label="商品类目"
           width="100"
         ></el-table-column>
-        <el-table-column prop="name" label="商品图片"></el-table-column>
-        <el-table-column prop="name" label="商品卖点"></el-table-column>
-        <el-table-column prop="name" label="商品描述"></el-table-column>
-        <el-table-column prop="name" label="操作" width="180">
+        <el-table-column
+          show-overflow-tooltip
+          prop="image"
+          label="商品图片"
+        ></el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          prop="sellPoint"
+          label="商品卖点"
+        ></el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          prop="desc"
+          label="商品描述"
+        ></el-table-column>
+        <el-table-column label="操作" width="180">
           <template slot-scope="scope">
             <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
               >编辑</el-button
@@ -55,24 +68,35 @@
       </el-table>
     </div>
     <!-- 分页区域 -->
+    <MyPagination
+      :total="total"
+      :pageSize="pageSize"
+      @changePage="changePage"
+    />
   </div>
 </template>
 
 <script>
+import MyPagination from "comp/MyPagination";
 export default {
+  components: {
+    MyPagination,
+  },
   data() {
     return {
       input: "",
-      tableData: [
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄",
-        },
-      ],
+      tableData: [],
+      total: 10,
+      pageSize: 1,
     };
   },
   methods: {
+    /**
+     * 分页页码
+     */
+    changePage(num) {
+      this.http(num);
+    },
     toggleSelection(rows) {
       if (rows) {
         rows.forEach((row) => {
@@ -93,6 +117,26 @@ export default {
     handleDelete(index, row) {
       console.log(index, row);
     },
+    /**
+     * 商品列表的获取
+     */
+    http(page) {
+      this.$api
+        .getGoodsList({
+          page,
+        })
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.status === 200) {
+            this.tableData = res.data.data; //数据列表
+            this.total = res.data.total;
+            this.pageSize = res.data.pageSize;
+          }
+        });
+    },
+  },
+  created() {
+    this.http(1);
   },
 };
 </script>

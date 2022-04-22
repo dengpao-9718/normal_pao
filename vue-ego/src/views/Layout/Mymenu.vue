@@ -1,7 +1,7 @@
 <template>
   <div class="Mymenu">
     <el-menu
-      default-active="/"
+      default-active="$router.path"
       class="el-menu-vertical-demo"
       background-color="#183555"
       text-color="#fff"

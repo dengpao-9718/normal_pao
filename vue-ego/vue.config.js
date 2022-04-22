@@ -3,7 +3,7 @@ const path = require("path");
 const resolve = (dir) => path.join(__dirname, dir);
 module.exports = defineConfig({
   runtimeCompiler: true,
-  // lintOnSave: false,
+  lintOnSave: false,
   chainWebpack: (config) => {
     config.resolve.alias
       .set("@", resolve("src"))
@@ -14,4 +14,17 @@ module.exports = defineConfig({
       .set("comp", resolve("src/components"));
   },
   transpileDependencies: true,
+  devServer: {
+    proxy: {
+      api: {
+        target: "http:127.0.0.1:9527/api",
+        ws: true,
+        changeOrigin: true,
+        pathRewrite: {
+          //重写路径
+          "^/api": "",
+        },
+      },
+    },
+  },
 });
