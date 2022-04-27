@@ -10,9 +10,10 @@
         placeholder="请输入内容"
       ></el-input>
       <el-button type="primary">查询</el-button>
-      <el-button type="primary">
-        <router-link to="/add-goods">添加</router-link>
-      </el-button>
+      <!-- <el-button type="primary">
+        <router-link to="/add-goods">添加</router-link> //页面添加
+      </el-button> -->
+      <el-button type="primary" @click="addGoods">添加</el-button>
     </div>
     <!-- 表格区域展示视图数据 -->
     <div class="wrapper">
@@ -77,14 +78,19 @@
       :pageSize="pageSize"
       @changePage="changePage"
     />
+    <!-- 弹框区域组件  1.父传子 2.children 3.ref -->
+    <!-- <GoodsDialog :dialogVisible="dialogVisible" @changeDialog="changeDialog" /> -->
+    <GoodsDialog ref="dialog" />
   </div>
 </template>
 
 <script>
 import MyPagination from "comp/MyPagination";
+import GoodsDialog from "./GoodsDialog.vue";
 export default {
   components: {
     MyPagination,
+    GoodsDialog,
   },
   data() {
     return {
@@ -94,9 +100,21 @@ export default {
       pageSize: 1,
       type: 1,
       list: 1,
+      dialogVisible: false,
     };
   },
   methods: {
+    /**
+     * 添加商品出现弹窗
+     */
+    addGoods() {
+      // this.dialogVisible = true;
+      //修改自组建实例的数据
+      this.$refs.dialog.dialogVisible = true;
+    },
+    changeDialog() {
+      this.dialogVisible = false;
+    },
     /**
      * 分页页码
      */
@@ -167,6 +185,7 @@ export default {
         })
         .then((res) => {
           if (res.data.status === 200) {
+            console.log(res.data);
             this.tableData = res.data.data; //数据列表
             this.total = res.data.total;
             this.pageSize = res.data.pageSize;
