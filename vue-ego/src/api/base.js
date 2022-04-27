@@ -5,5 +5,6 @@
 const path = "http://192.168.7.168:9527/api";
 const base = {
   goodsList: path + "/projectList", //商品列表
+  search: path + "/search", //商品搜索
 };
 export default base;

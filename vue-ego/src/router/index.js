@@ -23,6 +23,12 @@ const routes = [
         component: () => import("views/Goods/Goods.vue"),
       },
       {
+        path: "/add-goods",
+        name: "AddGoods",
+        //子级路由
+        component: () => import("views/Goods/AddGoods.vue"),
+      },
+      {
         path: "/params",
         name: "Params",
         component: () => import("views/Params/Params.vue"),

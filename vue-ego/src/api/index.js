@@ -12,5 +12,12 @@ const api = {
       params,
     });
   },
+  /**
+   * 搜索商品数据
+   */
+  getSearch(params) {
+    //search:xx
+    return axios.get(base.search, { params });
+  },
 };
 export default api;

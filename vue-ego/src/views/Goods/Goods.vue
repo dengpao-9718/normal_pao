@@ -1,8 +1,11 @@
 <template>
   <div>
+    
     <!-- 搜索区域 -->
     <div class="header">
+      <!-- change	仅在输入框失去焦点或用户按下回车时触发	(value: string | number) -->
       <el-input
+        @change="searchInput"
         class="good_search"
         v-model="input"
         placeholder="请输入内容"
@@ -88,6 +91,8 @@ export default {
       tableData: [],
       total: 10,
       pageSize: 1,
+      type: 1,
+      list: 1,
     };
   },
   methods: {
@@ -95,7 +100,41 @@ export default {
      * 分页页码
      */
     changePage(num) {
-      this.http(num);
+      if (this.type === 1) {
+        //商品列表的分页
+        this.http(num);
+      } else {
+        //搜索分页
+        this.tableData = this.list.slice((num - 1) * 3, num * 3);
+      }
+    },
+    /**
+     * 搜索查询数据-------
+     */
+    searchInput(val) {
+      if (!val) {
+        this.http(1);
+        return;
+      }
+      this.$api
+        .getSearch({
+          search: val,
+        })
+        .then((res) => {
+          if (res.data.status == 200) {
+            this.list = res.data.result; //获取的搜索的总数据的条数--数据分割
+            //假设需要分页 ---处理分页---
+            this.total = res.data.result.length;
+            this.pageSize = 3;
+            this.tableData = res.data.result.slice(0, 3);
+            this.type = 2;
+          } else {
+            this.tableData = [];
+            this.pageSize = 1;
+            this.total = 1;
+            this.type = 1;
+          }
+        });
     },
     toggleSelection(rows) {
       if (rows) {
@@ -126,7 +165,6 @@ export default {
           page,
         })
         .then((res) => {
-          console.log(res.data);
           if (res.data.status === 200) {
             this.tableData = res.data.data; //数据列表
             this.total = res.data.total;
