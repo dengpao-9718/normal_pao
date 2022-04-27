@@ -1,6 +1,5 @@
 <template>
   <div>
-    
     <!-- 搜索区域 -->
     <div class="header">
       <!-- change	仅在输入框失去焦点或用户按下回车时触发	(value: string | number) -->
@@ -11,7 +10,9 @@
         placeholder="请输入内容"
       ></el-input>
       <el-button type="primary">查询</el-button>
-      <el-button type="primary">添加</el-button>
+      <el-button type="primary">
+        <router-link to="/add-goods">添加</router-link>
+      </el-button>
     </div>
     <!-- 表格区域展示视图数据 -->
     <div class="wrapper">
