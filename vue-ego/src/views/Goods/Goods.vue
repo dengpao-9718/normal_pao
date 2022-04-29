@@ -77,6 +77,7 @@
       :total="total"
       :pageSize="pageSize"
       @changePage="changePage"
+      :currentPage="currentPage"
     />
     <!-- 弹框区域组件  1.父传子 2.children 3.ref -->
     <!-- <GoodsDialog :dialogVisible="dialogVisible" @changeDialog="changeDialog" /> -->
@@ -101,6 +102,7 @@ export default {
       type: 1,
       list: 1,
       dialogVisible: false,
+      currentPage: 1, //选中的高亮的页码
     };
   },
   methods: {
@@ -119,6 +121,7 @@ export default {
      * 分页页码
      */
     changePage(num) {
+      this.currentPage = num;
       if (this.type === 1) {
         //商品列表的分页
         this.http(num);
@@ -133,6 +136,8 @@ export default {
     searchInput(val) {
       if (!val) {
         this.http(1);
+        this.currentPage = 1;
+        this.type = 1;
         return;
       }
       this.$api
@@ -141,6 +146,7 @@ export default {
         })
         .then((res) => {
           if (res.data.status == 200) {
+            this.currentPage = 1;
             this.list = res.data.result; //获取的搜索的总数据的条数--数据分割
             //假设需要分页 ---处理分页---
             this.total = res.data.result.length;

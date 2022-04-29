@@ -19,5 +19,12 @@ const api = {
     //search:xx
     return axios.get(base.search, { params });
   },
+  /**
+   * 获取类目选择
+   * {id:cid}
+   */
+  getSelectCategory(params) {
+    return axios.get(base.selectCategory, { params });
+  },
 };
 export default api;

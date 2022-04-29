@@ -5,7 +5,12 @@
       :visible.sync="dialogVisible" 控制弹窗显示隐藏 Boolean true显示
       width="70%" 宽度大小
     -->
-    <el-dialog title="添加商品" :visible.sync="dialogVisible" width="70%">
+    <el-dialog
+      title="添加商品"
+      :visible.sync="dialogVisible"
+      append-to-body
+      width="70%"
+    >
       <div class="myForm">
         <el-form
           :model="goodsForm"
@@ -15,7 +20,10 @@
           class="demo-ruleForm"
         >
           <el-form-item label="类目选择" prop="categroy">
-            <el-button type="primary">类目选择</el-button>
+            <el-button type="primary" @click="innerVisible = true"
+              >类目选择</el-button
+            >
+            <span>{{ goodsForm.categroy }}</span>
           </el-form-item>
           <el-form-item label="商品名称" prop="title">
             <el-input v-model="goodsForm.title"></el-input>
@@ -71,11 +79,25 @@
           >确 定</el-button
         >
       </span>
+      <!-- 1.内弹框 -- 类目选择-- -->
+      <el-dialog
+        width="40%"
+        title="类目选择"
+        :visible.sync="innerVisible"
+        append-to-body
+      >
+        <TreeGoods @sendTreeData="sendTreeData" />
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="innerVisible = false">取 消</el-button>
+          <el-button type="primary" @click="showTreeData">确 定</el-button>
+        </span>
+      </el-dialog>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import TreeGoods from "./TreeGoods.vue";
 export default {
   // props: {
   //   dialogVisible: {
@@ -83,9 +105,14 @@ export default {
   //     default: false,
   //   },
   // },
+  components: {
+    TreeGoods,
+  },
   data() {
     return {
-      dialogVisible: false,
+      dialogVisible: false, //外弹框
+      innerVisible: false, //内弹框
+      treeData: {}, //接受tree的数据
       goodsForm: {
         //表单容器-对象
         title: "", //商品名称
@@ -119,8 +146,23 @@ export default {
   },
   methods: {
     //自定义时间--通知父组件修改变量--修改dialogVisible
-    close() {
-      this.$emit("changeDialog");
+    // close() {
+    //   this.$emit("changeDialog");
+    // },
+    /**
+     * 显示tree数据
+     */
+    showTreeData() {
+      this.innerVisible = false;
+      //显示数据
+      this.goodsForm.categroy = this.treeData.name;
+    },
+    /**
+     * 获取tree数据
+     */
+    sendTreeData(val) {
+      console.log("tree数据", val);
+      this.treeData = val;
     },
   },
 };
