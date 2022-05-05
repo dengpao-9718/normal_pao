@@ -71,19 +71,13 @@
             />
           </el-form-item>
           <el-form-item label="商品描述" prop="descs">
-            <textarea name="desc" id="" cols="30" rows="10"></textarea>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="submitForm('goodsForm')"
-              >确定</el-button
-            >
-            <el-button @click="resetForm('goodsForm')">重置</el-button>
+            <WangEditor @sendEditor="sendEditor" />
           </el-form-item>
         </el-form>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
+        <el-button type="primary" @click="submitForm('ruleForm')"
           >确 定</el-button
         >
       </span>
@@ -120,6 +114,7 @@
 <script>
 import TreeGoods from "./TreeGoods.vue";
 import UploadImg from "./UploadImg.vue";
+import WangEditor from "./WangEditor.vue";
 export default {
   // props: {
   //   dialogVisible: {
@@ -130,6 +125,7 @@ export default {
   components: {
     TreeGoods,
     UploadImg,
+    WangEditor,
   },
   data() {
     return {
@@ -145,7 +141,8 @@ export default {
         num: "", //商品数量
         sellPoint: "", //卖点
         image: false, //图片
-        descs: [],
+        descs: "",
+        cid: "",
         categroy: "",
         date1: "", //商品时间
         date2: "", //商品时间
@@ -170,6 +167,12 @@ export default {
     };
   },
   methods: {
+    /**
+     * 接受wangEditor富文本编辑器数据
+     */
+    sendEditor(val) {
+      this.goodsForm.descs = val;
+    },
     //自定义时间--通知父组件修改变量--修改dialogVisible
     // close() {
     //   this.$emit("changeDialog");
@@ -188,6 +191,7 @@ export default {
       this.innerVisible = false;
       //显示数据
       this.goodsForm.categroy = this.treeData.name;
+      this.goodsForm.cid = this.treeData.cid;
     },
     /**
      * 显示图片--确定按钮
@@ -202,6 +206,44 @@ export default {
     sendTreeData(val) {
       console.log("tree数据", val);
       this.treeData = val;
+    },
+    submitForm(ruleForm) {
+      this.$refs[ruleForm].validate((valid) => {
+        if (valid) {
+          //参数： title cid  category sellPoint price num descs paramsInfo image
+          //es6  结构赋值
+          let { title, cid, category, sellPoint, price, num, descs, image } =
+            this.goodsForm;
+          console.log("获取输入的信息", this.goodsForm);
+          this.$api
+            .addGoods({
+              title,
+              cid,
+              category,
+              sellPoint,
+              price,
+              num,
+              descs,
+              image,
+            })
+            .then((res) => {
+              if (res.data.status === 200) {
+                console.log(res.data, "添加的世贤");
+                this.dialogVisible = false; //关闭弹窗
+                this.$parent.http(1); //更新父组件的列表数据
+                this.$message({
+                  message: "添加成功",
+                  type: "success",
+                });
+              } else {
+                this.$message.error("添加失败");
+              }
+            });
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
     },
   },
 };

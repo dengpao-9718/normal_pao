@@ -9,5 +9,6 @@ const base = {
   search: path + "/search", //商品搜索
   selectCategory: path + "/backend/itemCategory/selectItemCategoryByParentId", //类目选择
   uploadUrl: path + "/upload", //图片上传post请求
+  addGoods: path + "/backend/item/insertTbItem", //添加商品
 };
 export default base;

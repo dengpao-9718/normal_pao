@@ -54,7 +54,7 @@
         ></el-table-column>
         <el-table-column
           show-overflow-tooltip
-          prop="desc"
+          prop="descs"
           label="商品描述"
         ></el-table-column>
         <el-table-column label="操作" width="180">

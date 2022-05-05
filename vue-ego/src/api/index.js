@@ -26,5 +26,15 @@ const api = {
   getSelectCategory(params) {
     return axios.get(base.selectCategory, { params });
   },
+  /**
+   * 添加商品
+   * 参数： title cid  category sellPoint price num descs paramsInfo image
+   */
+  addGoods(params) {
+    // = {}
+    return axios.get(base.addGoods, {
+      params,
+    });
+  },
 };
 export default api;
