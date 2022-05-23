@@ -10,6 +10,7 @@
       :visible.sync="dialogVisible"
       append-to-body
       width="70%"
+      :before-close="clearForm"
     >
       <div class="myForm">
         <el-form
@@ -19,11 +20,11 @@
           label-width="100px"
           class="demo-ruleForm"
         >
-          <el-form-item label="类目选择" prop="categroy">
+          <el-form-item label="类目选择" prop="category">
             <el-button type="primary" @click="innerVisible = true"
               >类目选择</el-button
             >
-            <span>{{ goodsForm.categroy }}</span>
+            <span>{{ goodsForm.category }}</span>
           </el-form-item>
           <el-form-item label="商品名称" prop="title">
             <el-input v-model="goodsForm.title"></el-input>
@@ -71,12 +72,12 @@
             />
           </el-form-item>
           <el-form-item label="商品描述" prop="descs">
-            <WangEditor @sendEditor="sendEditor" />
+            <WangEditor ref="myEditor" @sendEditor="sendEditor" />
           </el-form-item>
         </el-form>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button @click="clearForm">取 消</el-button>
         <el-button type="primary" @click="submitForm('ruleForm')"
           >确 定</el-button
         >
@@ -143,7 +144,7 @@ export default {
         image: false, //图片
         descs: "",
         cid: "",
-        categroy: "",
+        category: "",
         date1: "", //商品时间
         date2: "", //商品时间
       },
@@ -190,7 +191,7 @@ export default {
     showTreeData() {
       this.innerVisible = false;
       //显示数据
-      this.goodsForm.categroy = this.treeData.name;
+      this.goodsForm.category = this.treeData.name;
       this.goodsForm.cid = this.treeData.cid;
     },
     /**
@@ -228,13 +229,13 @@ export default {
             })
             .then((res) => {
               if (res.data.status === 200) {
-                console.log(res.data, "添加的世贤");
-                this.dialogVisible = false; //关闭弹窗
                 this.$parent.http(1); //更新父组件的列表数据
                 this.$message({
                   message: "添加成功",
                   type: "success",
                 });
+                //清空表单
+                this.clearForm();
               } else {
                 this.$message.error("添加失败");
               }
@@ -244,6 +245,16 @@ export default {
           return false;
         }
       });
+    },
+    /**
+     * //清空表单
+     */
+    clearForm() {
+      this.dialogVisible = false; //1.关闭弹窗
+      //4.1 使用element里面的重置表单  4.2 自己手动初始化goodForm
+      this.$refs.ruleForm.resetFields();
+      //单独清空便一起的内容 -- editor.txt.clear()
+      this.$refs.myEditor.editor.txt.clear();
     },
   },
 };
