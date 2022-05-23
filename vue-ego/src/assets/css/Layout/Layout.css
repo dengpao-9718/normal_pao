@@ -2,14 +2,31 @@
   position: fixed;
   left: 0;
   top: 0;
-  width: 200px;
   height: 100%;
-  background: #545C64;
+  background: #183555;
 }
 .Layout_index .right_menu {
   margin-left: 200px;
+  transition: all 0.3s;
 }
-.right_cont .header {
-  background: skyblue;
-  color: #222;
+.Layout_index .right_menu.isHidemenu {
+  margin-left: 64px;
+}
+.right_cont > .header {
+  background: #1574C2;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 50px;
+  padding: 0 50px 0 20px;
+}
+.right_cont > .header .iconfont {
+  font-size: 24px;
+}
+.right_cont > .header .header-right {
+  display: flex;
+}
+.right_cont > .header .header-right .user {
+  margin-left: 20px;
 }

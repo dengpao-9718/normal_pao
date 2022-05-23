@@ -7,7 +7,21 @@
         class="iconfont icon-right-indent"
       ></i>
       <i v-else @click="changeMenu" class="iconfont icon-left-indent"></i>
-      顶部区域
+      <div class="header-right">
+        <el-dropdown>
+          <span class="el-dropdown-link">
+            多语言<i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>中文</el-dropdown-item>
+            <el-dropdown-item>English</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+        <div class="user">
+          欢迎: xxx
+          <span>退出的登录</span>
+        </div>
+      </div>
     </div>
     <!-- 内容区域   路由出口 -->
     <div class="content">
@@ -28,4 +42,12 @@ export default {
 };
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.el-dropdown-link {
+  cursor: pointer;
+  color: #fff;
+}
+.el-icon-arrow-down {
+  font-size: 12px;
+}
+</style>

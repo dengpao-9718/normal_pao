@@ -81,7 +81,7 @@
     />
     <!-- 弹框区域组件  1.父传子 2.children 3.ref -->
     <!-- <GoodsDialog :dialogVisible="dialogVisible" @changeDialog="changeDialog" /> -->
-    <GoodsDialog ref="dialog" />
+    <GoodsDialog ref="dialog" :title="title" :rowData="rowData" />
   </div>
 </template>
 
@@ -103,6 +103,8 @@ export default {
       list: 1,
       dialogVisible: false,
       currentPage: 1, //选中的高亮的页码
+      title: "添加商品",
+      rowData: {}, //当前行的数据对象
     };
   },
   methods: {
@@ -112,6 +114,7 @@ export default {
     addGoods() {
       // this.dialogVisible = true;
       //修改自组建实例的数据
+      this.title = "添加商品";
       this.$refs.dialog.dialogVisible = true;
     },
     changeDialog() {
@@ -175,11 +178,44 @@ export default {
     },
     // 编辑
     handleEdit(index, row) {
+      // 1. 点击编辑按钮 显示弹框  2.弹框上回显数据展示-当前的行的数据
+      this.$refs.dialog.dialogVisible = true;
+      this.title = "编辑商品";
       console.log(index, row);
+      this.rowData = { ...row };
     },
     // 删除
     handleDelete(index, row) {
-      console.log(index, row);
+      console.log("删除", index, row);
+      this.$confirm("此操作将永久删除该商品, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          //请求接口 ----
+          this.$api
+            .deleteGoods({
+              id: row.id,
+            })
+            .then((res) => {
+              if (res.data.status == 200) {
+                this.$message({
+                  type: "success",
+                  message: "删除成功!",
+                });
+                //视图更新
+                this.http(1);
+              }
+              console.log("数据拿去成功", res.data);
+            });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
     },
     /**
      * 商品列表的获取

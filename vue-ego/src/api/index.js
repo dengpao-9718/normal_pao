@@ -36,5 +36,21 @@ const api = {
       params,
     });
   },
+  /**
+   * 删除商品 id
+   */
+  deleteGoods(params) {
+    return axios.get(base.deleteGoods, {
+      params,
+    });
+  },
+  /**
+   * 编辑商品id
+   */
+  updateGoods(params) {
+    return axios.get(base.updateGoods, {
+      params,
+    });
+  },
 };
 export default api;

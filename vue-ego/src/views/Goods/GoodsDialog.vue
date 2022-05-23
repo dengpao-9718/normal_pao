@@ -6,7 +6,7 @@
       width="70%" 宽度大小
     -->
     <el-dialog
-      title="添加商品"
+      :title="title"
       :visible.sync="dialogVisible"
       append-to-body
       width="70%"
@@ -117,6 +117,18 @@ import TreeGoods from "./TreeGoods.vue";
 import UploadImg from "./UploadImg.vue";
 import WangEditor from "./WangEditor.vue";
 export default {
+  props: {
+    title: {
+      type: String,
+      default: "添加商品",
+    },
+    rowData: {
+      type: Object,
+      default: function () {
+        return {};
+      },
+    },
+  },
   // props: {
   //   dialogVisible: {
   //     type: Boolean,
@@ -136,6 +148,7 @@ export default {
       treeData: {}, //接受tree的数据
       imgUrl: "",
       goodsForm: {
+        id: "",
         //表单容器-对象
         title: "", //商品名称
         price: "", //商品价格
@@ -166,6 +179,20 @@ export default {
         ],
       },
     };
+  },
+  //监听器--------
+  watch: {
+    rowData(val) {
+      //变化时更改goodsForm数据
+      console.log("监听到数据变化", val);
+      this.goodsForm = val;
+      //设置富文本编辑器数据内容
+      this.$nextTick(() => {
+        console.log("this.$refs.myEditor.editor", this.$refs.myEditor);
+        this.$refs.myEditor.editor.txt.html(val.descs);
+      });
+      // this.$refs.myEditor.editor = val.descs;
+    },
   },
   methods: {
     /**
@@ -213,33 +240,73 @@ export default {
         if (valid) {
           //参数： title cid  category sellPoint price num descs paramsInfo image
           //es6  结构赋值
-          let { title, cid, category, sellPoint, price, num, descs, image } =
-            this.goodsForm;
+          let {
+            title,
+            cid,
+            category,
+            sellPoint,
+            price,
+            num,
+            descs,
+            image,
+            id,
+          } = this.goodsForm;
           console.log("获取输入的信息", this.goodsForm);
-          this.$api
-            .addGoods({
-              title,
-              cid,
-              category,
-              sellPoint,
-              price,
-              num,
-              descs,
-              image,
-            })
-            .then((res) => {
-              if (res.data.status === 200) {
-                this.$parent.http(1); //更新父组件的列表数据
-                this.$message({
-                  message: "添加成功",
-                  type: "success",
-                });
-                //清空表单
-                this.clearForm();
-              } else {
-                this.$message.error("添加失败");
-              }
-            });
+          //判断当前的确定按钮的类型
+          if (this.title === "添加商品") {
+            this.$api
+              .addGoods({
+                title,
+                cid,
+                category,
+                sellPoint,
+                price,
+                num,
+                descs,
+                image,
+              })
+              .then((res) => {
+                if (res.data.status === 200) {
+                  this.$parent.http(1); //更新父组件的列表数据
+                  this.$message({
+                    message: "添加成功",
+                    type: "success",
+                  });
+                  //清空表单
+                  this.clearForm();
+                } else {
+                  this.$message.error("添加失败");
+                }
+              });
+          } else {
+            console.log("编辑商品");
+            this.$api
+              .updateGoods({
+                id,
+                title,
+                cid,
+                category,
+                sellPoint,
+                price,
+                num,
+                descs,
+                image,
+              })
+              .then((res) => {
+                // console.log(res, "bianji");
+                if (res.data.status === 200) {
+                  this.$parent.http(1); //更新父组件的列表数据
+                  this.$message({
+                    message: "修改成功",
+                    type: "success",
+                  });
+                  //清空表单
+                  this.clearForm();
+                } else {
+                  this.$message.error("修改失败");
+                }
+              });
+          }
         } else {
           console.log("error submit!!");
           return false;
@@ -252,9 +319,22 @@ export default {
     clearForm() {
       this.dialogVisible = false; //1.关闭弹窗
       //4.1 使用element里面的重置表单  4.2 自己手动初始化goodForm
-      this.$refs.ruleForm.resetFields();
+      this.goodsForm = {
+        //表单容器-对象
+        title: "", //商品名称
+        price: "", //商品价格
+        num: "", //商品数量
+        sellPoint: "", //卖点
+        image: false, //图片
+        descs: "",
+        cid: "",
+        category: "",
+        date1: "", //商品时间
+        date2: "", //商品时间
+      };
+      // this.$refs.ruleForm.resetFields();
       //单独清空便一起的内容 -- editor.txt.clear()
-      this.$refs.myEditor.editor.txt.clear();
+      // this.$refs.myEditor.editor.txt.clear();
     },
   },
 };
