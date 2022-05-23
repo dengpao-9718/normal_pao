@@ -15,15 +15,18 @@
       </el-menu-item>
       <el-menu-item index="/">
         <i class="el-icon-menu"></i>
-        <span slot="title">首页</span>
+        <!-- <span slot="title">首页</span> -->
+        <span slot="title">{{ $t("menu.home") }}</span>
       </el-menu-item>
       <el-menu-item index="/goods">
         <i class="el-icon-document"></i>
-        <span slot="title">商品管理</span>
+        <!-- <span slot="title">商品管理</span> -->
+        <span slot="title">{{ $t("menu.home") }}</span>
       </el-menu-item>
       <el-menu-item index="/params">
         <i class="el-icon-setting"></i>
-        <span slot="title">规格参数</span>
+        <!-- <span slot="title">规格参数</span> -->
+        <span slot="title">{{ $t("menu.parmas") }}</span>
       </el-menu-item>
       <el-menu-item index="/advert">
         <i class="el-icon-setting"></i>

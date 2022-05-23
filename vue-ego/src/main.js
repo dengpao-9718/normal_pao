@@ -5,11 +5,13 @@ import store from "./store";
 import "./plugins/element.js";
 import "css/reset.css";
 import api from "./api/index";
+import i18n from "./language/index";
 Vue.prototype.$api = api;
 Vue.config.productionTip = false;
 
 new Vue({
   router,
+  i18n,
   store,
   render: (h) => h(App),
 }).$mount("#app");
