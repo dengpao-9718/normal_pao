@@ -8,7 +8,12 @@ import api from "./api/index";
 import i18n from "./language/index";
 Vue.prototype.$api = api;
 Vue.config.productionTip = false;
-
+//持久化
+let user = localStorage.getItem("user");
+if (user) {
+  user = JSON.parse(user);
+  store.commit("loginModule/setUser", user);
+}
 new Vue({
   router,
   i18n,

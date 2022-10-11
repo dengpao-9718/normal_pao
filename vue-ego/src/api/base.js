@@ -12,5 +12,6 @@ const base = {
   addGoods: path + "/backend/item/insertTbItem", //添加商品
   deleteGoods: path + "/backend/item/deleteItemById", //删除商品
   updateGoods: path + "/backend/item/updateTbItem", //修改商品
+  login: path + "/login", //登录接口
 };
 export default base;

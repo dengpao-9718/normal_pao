@@ -3,7 +3,17 @@
  */
 import axios from "axios";
 import base from "./base";
+//post不支持json格式
+//node>js
+const qs = require("qs");
 const api = {
+  /**
+   * 登录接口
+   */
+  getLogin(params) {
+    //params={username:'',password:''}
+    return axios.post(base.login, qs.stringify(params));
+  },
   /**
    *商品列表
    */

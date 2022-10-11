@@ -29,4 +29,10 @@
 }
 .right_cont > .header .header-right .user {
   margin-left: 20px;
+  display: flex;
+  align-items: center;
+}
+.right_cont > .header .header-right .user i {
+  margin: 0 5px;
+  cursor: pointer;
 }
