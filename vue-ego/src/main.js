@@ -6,14 +6,11 @@ import "./plugins/element.js";
 import "css/reset.css";
 import api from "./api/index";
 import i18n from "./language/index";
+import "./router/permission";
+import "./utils/localStorage";
 Vue.prototype.$api = api;
 Vue.config.productionTip = false;
-//持久化
-let user = localStorage.getItem("user");
-if (user) {
-  user = JSON.parse(user);
-  store.commit("loginModule/setUser", user);
-}
+
 new Vue({
   router,
   i18n,
