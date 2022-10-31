@@ -6,7 +6,9 @@ import Home from "views/Home/home.vue";
 
 // const Goods = () => import("views/Goods/Goods.vue");
 Vue.use(VueRouter);
-
+//异步
+const Specifications = () =>
+  import("../views/Params/Paramsinfo/Specifications.vue");
 const routes = [
   {
     path: "",
@@ -35,7 +37,15 @@ const routes = [
       {
         path: "/params",
         name: "Params",
+        redirect: "/params/specifications",
         component: () => import("views/Params/Params.vue"),
+        children: [
+          {
+            path: "specifications",
+            name: "Specifications",
+            component: Specifications,
+          },
+        ],
       },
       {
         path: "/order",

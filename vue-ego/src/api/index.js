@@ -62,5 +62,13 @@ const api = {
       params,
     });
   },
+  /**
+   * 销量对比
+   */
+  getSellTotal(parmas) {
+    return axios.get(base.sellTotal, {
+      parmas,
+    });
+  },
 };
 export default api;

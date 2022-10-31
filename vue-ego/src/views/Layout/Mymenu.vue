@@ -23,11 +23,16 @@
         <!-- <span slot="title">商品管理</span> -->
         <span slot="title">{{ $t("menu.goods") }}</span>
       </el-menu-item>
-      <el-menu-item index="/params">
-        <i class="el-icon-setting"></i>
-        <!-- <span slot="title">规格参数</span> -->
-        <span slot="title">{{ $t("menu.parmas") }}</span>
-      </el-menu-item>
+      <el-submenu index="/params">
+        <template slot="title">
+          <i class="el-icon-setting"></i>
+          <span slot="title">{{ $t("menu.params") }}</span>
+        </template>
+        <el-menu-item index="/params/specifications">
+          <i class="el-icon-setting"></i>
+          <span slot="title">规格与包装</span>
+        </el-menu-item>
+      </el-submenu>
       <el-menu-item index="/advert">
         <i class="el-icon-setting"></i>
         <span slot="title">广告分类</span>

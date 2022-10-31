@@ -13,5 +13,6 @@ const base = {
   deleteGoods: path + "/backend/item/deleteItemById", //删除商品
   updateGoods: path + "/backend/item/updateTbItem", //修改商品
   login: path + "/login", //登录接口
+  sellTotal: path + "/sellTotal", //统计数据
 };
 export default base;

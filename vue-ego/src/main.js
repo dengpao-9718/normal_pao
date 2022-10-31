@@ -8,6 +8,9 @@ import api from "./api/index";
 import i18n from "./language/index";
 import "./router/permission";
 import "./utils/localStorage";
+import * as echarts from "echarts";
+console.log("--echarts--", echarts);
+Vue.prototype.$echarts = echarts;
 Vue.prototype.$api = api;
 Vue.config.productionTip = false;
 
